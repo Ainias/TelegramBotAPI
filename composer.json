@@ -2,7 +2,7 @@
   "name": "ainias/telegram-bot-api",
   "autoload": {
     "psr-4": {
-      "Ainias\\TelegramBotAPI": "src/"
+      "Ainias\\TelegramBotAPI\\": "src/"
     }
   }
 }
