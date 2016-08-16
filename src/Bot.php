@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramBot;
+namespace ainias\TelegramBot;
 
 use ainias\TelegramBot\Interfaces\CommandBotInterface;
 use ainias\TelegramBot\Interfaces\ForwardMessageBotInterface;

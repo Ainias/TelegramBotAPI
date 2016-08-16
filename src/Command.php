@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramBot;
+namespace ainias\TelegramBot;
 
 class Command {
     private $command;
