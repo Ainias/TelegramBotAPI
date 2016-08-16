@@ -1,8 +1,17 @@
 {
   "name": "ainias/telegram-bot-api",
+  "description": "TelegramBot API",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ainias"
+    }
+  ],
+  "require":{},
+  "require-dev":{},
   "autoload": {
     "psr-4": {
-      "Ainias\\TelegramBotAPI\\": "src/"
+      "Ainias\\TelegramBot\\": "src"
     }
   }
 }
