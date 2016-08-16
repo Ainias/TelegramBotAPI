@@ -101,8 +101,8 @@ class Bot
             'adapter' => 'Zend\Http\Client\Adapter\Curl',
             'curloptions' => array(
                 CURLOPT_FOLLOWLOCATION => true,
-//                CURLOPT_SSL_VERIFYHOST => false,
-//                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => false,
             ),
         );
 
