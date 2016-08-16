@@ -13,6 +13,7 @@ use Ainias\TelegramBot\Objects\ReplyKeyboardMarkup;
 use Ainias\TelegramBot\Objects\Update;
 use Ainias\TelegramBot\Objects\User;
 use Ainias\TelegramBot\Objects\UserProfilePhotos;
+use Zend\Http\Client;
 
 class Bot
 {
