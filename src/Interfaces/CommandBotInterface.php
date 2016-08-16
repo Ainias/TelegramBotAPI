@@ -1,8 +1,8 @@
 <?php
 
-namespace ainias\TelegramBot\Interfaces;
+namespace Ainias\TelegramBot\Interfaces;
 
-use ainias\TelegramBot\Objects\Message;
+use Ainias\TelegramBot\Objects\Message;
 
 interface CommandBotInterface {
     public function handleCommand(Message $message);

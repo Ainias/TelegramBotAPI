@@ -1,18 +1,18 @@
 <?php
 
-namespace ainias\TelegramBot;
+namespace Ainias\TelegramBot;
 
-use ainias\TelegramBot\Interfaces\CommandBotInterface;
-use ainias\TelegramBot\Interfaces\ForwardMessageBotInterface;
-use ainias\TelegramBot\Interfaces\ReplyMessageBot;
-use ainias\TelegramBot\Interfaces\TextBotInterface;
-use ainias\TelegramBot\Objects\ForceReply;
-use ainias\TelegramBot\Objects\Message;
-use ainias\TelegramBot\Objects\ReplyKeyboardHide;
-use ainias\TelegramBot\Objects\ReplyKeyboardMarkup;
-use ainias\TelegramBot\Objects\Update;
-use ainias\TelegramBot\Objects\User;
-use ainias\TelegramBot\Objects\UserProfilePhotos;
+use Ainias\TelegramBot\Interfaces\CommandBotInterface;
+use Ainias\TelegramBot\Interfaces\ForwardMessageBotInterface;
+use Ainias\TelegramBot\Interfaces\ReplyMessageBot;
+use Ainias\TelegramBot\Interfaces\TextBotInterface;
+use Ainias\TelegramBot\Objects\ForceReply;
+use Ainias\TelegramBot\Objects\Message;
+use Ainias\TelegramBot\Objects\ReplyKeyboardHide;
+use Ainias\TelegramBot\Objects\ReplyKeyboardMarkup;
+use Ainias\TelegramBot\Objects\Update;
+use Ainias\TelegramBot\Objects\User;
+use Ainias\TelegramBot\Objects\UserProfilePhotos;
 
 class Bot
 {

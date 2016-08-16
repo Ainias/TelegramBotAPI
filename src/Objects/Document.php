@@ -1,6 +1,6 @@
 <?php
 
-namespace ainias\TelegramBot\Objects;
+namespace Ainias\TelegramBot\Objects;
 
 class Document implements TypeInterface
 {
