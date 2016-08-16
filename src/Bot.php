@@ -102,7 +102,7 @@ class Bot
             'curloptions' => array(
                 CURLOPT_FOLLOWLOCATION => true,
 //                CURLOPT_SSL_VERIFYHOST => false,
-                CURLOPT_SSL_VERIFYPEER => false,
+//                CURLOPT_SSL_VERIFYPEER => false,
             ),
         );
 
