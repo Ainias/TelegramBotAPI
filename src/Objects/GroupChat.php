@@ -2,7 +2,7 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class GroupChat implements TypeInterface
+class GroupChat extends TypeObject
 {
     private $id;
     private $title;

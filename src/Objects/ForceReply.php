@@ -2,7 +2,7 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class ForceReply implements TypeInterface
+class ForceReply extends TypeObject
 {
     /** @var  bool */
     private $force_reply;

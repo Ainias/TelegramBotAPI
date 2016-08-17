@@ -2,124 +2,95 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class Video implements TypeInterface
+class Video extends TypeObject
 {
+    /** @var  string */
     private $file_id;
+
+    /** @var  integer */
     private $width;
+
+    /** @var  integer */
     private $height;
+
+    /** @var  integer */
     private $duration;
-    /** @var  PhotoSize */
+
+    /** @var  PhotoSize | NULL*/
     private $thumb;
+
+    /** @var  string | NULL */
     private $mime_type;
+
+    /** @var  integer | NULL */
     private $file_size;
-    private $caption;
-
-    public function __construct($arrayData = NULL)
-    {
-        if (is_array($arrayData))
-        {
-            $this->hydrate($arrayData);
-        }
-    }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCaption()
-    {
-        return $this->caption;
-    }
-
-    /**
-     * @param mixed $caption
-     */
-    public function setCaption($caption)
-    {
-        $this->caption = $caption;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDuration()
-    {
-        return $this->duration;
-    }
-
-    /**
-     * @param mixed $duration
-     */
-    public function setDuration($duration)
-    {
-        $this->duration = $duration;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFileId()
+    public function getFileId(): string
     {
         return $this->file_id;
     }
 
     /**
-     * @param mixed $file_id
+     * @param string $file_id
      */
-    public function setFileId($file_id)
+    public function setFileId(string $file_id)
     {
         $this->file_id = $file_id;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getFileSize()
+    public function getWidth(): int
     {
-        return $this->file_size;
+        return $this->width;
     }
 
     /**
-     * @param mixed $file_size
+     * @param int $width
      */
-    public function setFileSize($file_size)
+    public function setWidth(int $width)
     {
-        $this->file_size = $file_size;
+        $this->width = $width;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }
 
     /**
-     * @param mixed $height
+     * @param int $height
      */
-    public function setHeight($height)
+    public function setHeight(int $height)
     {
         $this->height = $height;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getMimeType()
+    public function getDuration(): int
     {
-        return $this->mime_type;
+        return $this->duration;
     }
 
     /**
-     * @param mixed $mime_type
+     * @param int $duration
      */
-    public function setMimeType($mime_type)
+    public function setDuration(int $duration)
     {
-        $this->mime_type = $mime_type;
+        $this->duration = $duration;
     }
 
     /**
-     * @return PhotoSize
+     * @return PhotoSize|NULL
      */
     public function getThumb()
     {
@@ -127,54 +98,46 @@ class Video implements TypeInterface
     }
 
     /**
-     * @param PhotoSize $thumb
+     * @param PhotoSize|NULL $thumb
      */
     public function setThumb($thumb)
     {
+        if (is_array($thumb))
+        {
+            $thumb = new PhotoSize($thumb);
+        }
         $this->thumb = $thumb;
     }
 
     /**
-     * @return mixed
+     * @return NULL|string
      */
-    public function getWidth()
+    public function getMimeType()
     {
-        return $this->width;
+        return $this->mime_type;
     }
 
     /**
-     * @param mixed $width
+     * @param NULL|string $mime_type
      */
-    public function setWidth($width)
+    public function setMimeType($mime_type)
     {
-        $this->width = $width;
+        $this->mime_type = $mime_type;
     }
 
-    public function hydrate($arrayData)
+    /**
+     * @return int|NULL
+     */
+    public function getFileSize()
     {
-        $this->setFileId($arrayData["file_id"]);
-        $this->setWidth($arrayData["width"]);
-        $this->setHeight($arrayData["height"]);
-        $this->setDuration($arrayData["duration"]);
-        $this->setThumb(new PhotoSize($arrayData["thumb"]));
-        (isset($arrayData["mime_type"])) && $this->setMimeType($arrayData["mime_type"]);
-        (isset($arrayData["file_size"])) && $this->setFileSize($arrayData["file_size"]);
-        (isset($arrayData["caption"])) && $this->setCaption($arrayData["caption"]);
+        return $this->file_size;
     }
 
-    /** @return array */
-    public function extract()
+    /**
+     * @param int|NULL $file_size
+     */
+    public function setFileSize($file_size)
     {
-        $data["file_id"] = $this->getFileId();
-        $data["width"] = $this->getWidth();
-        $data["height"] = $this->getHeight();
-        $data["duration"] = $this->getDuration();
-        $data["thumb"] = $this->getThumb()->extract();
-
-        ($this->getMimeType() !== NULL) && ($data["mime_type"] = $this->getMimeType());
-        ($this->getFileSize() !== NULL) && ($data["file_size"] = $this->getFileSize());
-        ($this->getCaption() !== NULL) && ($data["caption"] = $this->getCaption());
-
-        return $data;
+        $this->file_size = $file_size;
     }
 }

@@ -2,63 +2,43 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class Location implements TypeInterface
+class Location extends TypeObject
 {
+    /** @var  float */
     private $longitude;
+
+    /** @var  float */
     private $latitude;
 
-    public function __construct($arrayData = NULL)
-    {
-        if (is_array($arrayData))
-        {
-            $this->hydrate($arrayData);
-        }
-    }
-
     /**
-     * @return mixed
+     * @return float
      */
-    public function getLatitude()
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * @param mixed $latitude
-     */
-    public function setLatitude($latitude)
-    {
-        $this->latitude = $latitude;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLongitude()
+    public function getLongitude(): float
     {
         return $this->longitude;
     }
 
     /**
-     * @param mixed $longitude
+     * @param float $longitude
      */
-    public function setLongitude($longitude)
+    public function setLongitude(float $longitude)
     {
         $this->longitude = $longitude;
     }
 
-    public function hydrate($arrayData)
+    /**
+     * @return float
+     */
+    public function getLatitude(): float
     {
-        $this->setLongitude($arrayData["longitude"]);
-        $this->setLatitude($arrayData["latitude"]);
+        return $this->latitude;
     }
 
-    /** @return array */
-    public function extract()
+    /**
+     * @param float $latitude
+     */
+    public function setLatitude(float $latitude)
     {
-        $data["longitude"] = $this->getLongitude();
-        $data["latitude"] = $this->getLatitude();
-
-        return $data;
+        $this->latitude = $latitude;
     }
 }

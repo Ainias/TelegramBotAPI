@@ -2,70 +2,92 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class Audio implements TypeInterface
+class Audio extends TypeObject
 {
+    /** @var  string */
     private $file_id;
+
+    /** @var  integer */
     private $duration;
+
+    /** @var  string | NULL */
+    private $performer;
+
+    /** @var  string | NULL */
+    private $title;
+
+    /** @var  string | NULL */
     private $mime_type;
+
+    /** @var  integer | NULL */
     private $file_size;
 
-    public function __construct($arrayData = NULL)
-    {
-        if (is_array($arrayData)) {
-            $this->hydrate($arrayData);
-        }
-    }
-
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDuration()
-    {
-        return $this->duration;
-    }
-
-    /**
-     * @param mixed $duration
-     */
-    public function setDuration($duration)
-    {
-        $this->duration = $duration;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFileId()
+    public function getFileId(): string
     {
         return $this->file_id;
     }
 
     /**
-     * @param mixed $file_id
+     * @param string $file_id
      */
-    public function setFileId($file_id)
+    public function setFileId(string $file_id)
     {
         $this->file_id = $file_id;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getFileSize()
+    public function getDuration(): int
     {
-        return $this->file_size;
+        return $this->duration;
     }
 
     /**
-     * @param mixed $file_size
+     * @param int $duration
      */
-    public function setFileSize($file_size)
+    public function setDuration(int $duration)
     {
-        $this->file_size = $file_size;
+        $this->duration = $duration;
     }
 
     /**
-     * @return mixed
+     * @return NULL|string
+     */
+    public function getPerformer()
+    {
+        return $this->performer;
+    }
+
+    /**
+     * @param NULL|string $performer
+     */
+    public function setPerformer($performer)
+    {
+        $this->performer = $performer;
+    }
+
+    /**
+     * @return NULL|string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param NULL|string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return NULL|string
      */
     public function getMimeType()
     {
@@ -73,30 +95,28 @@ class Audio implements TypeInterface
     }
 
     /**
-     * @param mixed $mime_type
+     * @param NULL|string $mime_type
      */
     public function setMimeType($mime_type)
     {
         $this->mime_type = $mime_type;
     }
 
-    public function hydrate($arrayData)
+    /**
+     * @return int|NULL
+     */
+    public function getFileSize()
     {
-        $this->setFileId($arrayData["file_id"]);
-        $this->setDuration($arrayData["duration"]);
-        (isset($arrayData["mime_type"])) && $this->setMimeType($arrayData["mime_type"]);
-        (isset($arrayData["file_size"])) && $this->setFileSize($arrayData["file_size"]);
+        return $this->file_size;
     }
 
-    /** @return array */
-    public function extract()
+    /**
+     * @param int|NULL $file_size
+     */
+    public function setFileSize($file_size)
     {
-        $data["file_id"] = $this->getFileId();
-        $data["duration"] = $this->getDuration();
-
-        ($this->getMimeType() !== NULL) && ($data["mime_type"] = $this->getMimeType());
-        ($this->getFileSize() !== NULL) && ($data["file_size"] = $this->getFileSize());
-
-        return $data;
+        $this->file_size = $file_size;
     }
+
+
 }

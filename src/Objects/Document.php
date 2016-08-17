@@ -2,89 +2,41 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class Document implements TypeInterface
+class Document extends TypeObject
 {
+    /** @var  string */
     private $file_id;
-    /** @var  PhotoSize */
+
+    /** @var  PhotoSize | NULL */
     private $thumb;
+
+    /** @var  string | NULL */
     private $file_name;
+
+    /** @var  string | NULL */
     private $mime_type;
+
+    /** @var  integer | NULL */
     private $file_size;
 
-    public function __construct($arrayData = NULL)
-    {
-        if (is_array($arrayData))
-        {
-            $this->hydrate($arrayData);
-        }
-    }
-
     /**
-     * @return mixed
+     * @return string
      */
-    public function getFileId()
+    public function getFileId(): string
     {
         return $this->file_id;
     }
 
     /**
-     * @param mixed $file_id
+     * @param string $file_id
      */
-    public function setFileId($file_id)
+    public function setFileId(string $file_id)
     {
         $this->file_id = $file_id;
     }
 
     /**
-     * @return mixed
-     */
-    public function getFileName()
-    {
-        return $this->file_name;
-    }
-
-    /**
-     * @param mixed $file_name
-     */
-    public function setFileName($file_name)
-    {
-        $this->file_name = $file_name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFileSize()
-    {
-        return $this->file_size;
-    }
-
-    /**
-     * @param mixed $file_size
-     */
-    public function setFileSize($file_size)
-    {
-        $this->file_size = $file_size;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMimeType()
-    {
-        return $this->mime_type;
-    }
-
-    /**
-     * @param mixed $mime_type
-     */
-    public function setMimeType($mime_type)
-    {
-        $this->mime_type = $mime_type;
-    }
-
-    /**
-     * @return PhotoSize
+     * @return PhotoSize|NULL
      */
     public function getThumb()
     {
@@ -92,32 +44,62 @@ class Document implements TypeInterface
     }
 
     /**
-     * @param PhotoSize $thumb
+     * @param PhotoSize|NULL $thumb
      */
     public function setThumb($thumb)
     {
+        if (is_array($thumb))
+        {
+            $thumb = new PhotoSize($thumb);
+        }
         $this->thumb = $thumb;
     }
 
-    public function hydrate($arrayData)
+    /**
+     * @return NULL|string
+     */
+    public function getFileName()
     {
-        $this->setFileId($arrayData["file_id"]);
-        $this->setThumb(new PhotoSize($arrayData["thumb"]));
-        (isset($arrayData["file_name"])) && $this->setFileName($arrayData["file_name"]);
-        (isset($arrayData["mime_type"])) && $this->setMimeType($arrayData["mime_type"]);
-        (isset($arrayData["file_size"])) && $this->setFileSize($arrayData["file_size"]);
+        return $this->file_name;
     }
 
-    /** @return array */
-    public function extract()
+    /**
+     * @param NULL|string $file_name
+     */
+    public function setFileName($file_name)
     {
-        $data["file_id"] = $this->getFileId();
-        $data["thumb"] = $this->getThumb()->extract();
+        $this->file_name = $file_name;
+    }
 
-        ($this->getFileName() !== NULL) && ($data["file_name"] = $this->getFileName());
-        ($this->getMimeType() !== NULL) && ($data["mime_type"] = $this->getMimeType());
-        ($this->getFileSize() !== NULL) && ($data["file_size"] = $this->getFileSize());
+    /**
+     * @return NULL|string
+     */
+    public function getMimeType()
+    {
+        return $this->mime_type;
+    }
 
-        return $data;
+    /**
+     * @param NULL|string $mime_type
+     */
+    public function setMimeType($mime_type)
+    {
+        $this->mime_type = $mime_type;
+    }
+
+    /**
+     * @return int|NULL
+     */
+    public function getFileSize()
+    {
+        return $this->file_size;
+    }
+
+    /**
+     * @param int|NULL $file_size
+     */
+    public function setFileSize($file_size)
+    {
+        $this->file_size = $file_size;
     }
 }

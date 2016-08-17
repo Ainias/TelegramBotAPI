@@ -2,73 +2,76 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class Sticker implements TypeInterface
+class Sticker extends TypeObject
 {
+    /** @var  string */
     private $file_id;
+
+    /** @var  integer */
     private $width;
+
+    /** @var  integer */
     private $height;
-    /** @var  PhotoSize */
+
+    /** @var  PhotoSize | NULL*/
     private $thumb;
+
+    /** @var  string | NULL */
+    private $emoji;
+
+    /** @var  integer | NULL */
     private $file_size;
 
-    public function __construct($arrayData = NULL)
-    {
-        if (is_array($arrayData))
-        {
-            $this->hydrate($arrayData);
-        }
-    }
-
     /**
-     * @return mixed
+     * @return string
      */
-    public function getFileId()
+    public function getFileId(): string
     {
         return $this->file_id;
     }
 
     /**
-     * @param mixed $file_id
+     * @param string $file_id
      */
-    public function setFileId($file_id)
+    public function setFileId(string $file_id)
     {
         $this->file_id = $file_id;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getFileSize()
+    public function getWidth(): int
     {
-        return $this->file_size;
+        return $this->width;
     }
 
     /**
-     * @param mixed $file_size
+     * @param int $width
      */
-    public function setFileSize($file_size)
+    public function setWidth(int $width)
     {
-        $this->file_size = $file_size;
+        $this->width = $width;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }
 
     /**
-     * @param mixed $height
+     * @param int $height
      */
-    public function setHeight($height)
+    public function setHeight(int $height)
     {
         $this->height = $height;
     }
 
     /**
-     * @return PhotoSize
+     * @return PhotoSize|NULL
      */
     public function getThumb()
     {
@@ -76,49 +79,46 @@ class Sticker implements TypeInterface
     }
 
     /**
-     * @param PhotoSize $thumb
+     * @param PhotoSize|NULL $thumb
      */
     public function setThumb($thumb)
     {
+        if (is_array($thumb))
+        {
+            $thumb = new PhotoSize($thumb);
+        }
         $this->thumb = $thumb;
     }
 
     /**
-     * @return mixed
+     * @return NULL|string
      */
-    public function getWidth()
+    public function getEmoji()
     {
-        return $this->width;
+        return $this->emoji;
     }
 
     /**
-     * @param mixed $width
+     * @param NULL|string $emoji
      */
-    public function setWidth($width)
+    public function setEmoji($emoji)
     {
-        $this->width = $width;
+        $this->emoji = $emoji;
     }
 
-    public function hydrate($arrayData)
+    /**
+     * @return int|NULL
+     */
+    public function getFileSize()
     {
-        $this->setFileId($arrayData["file_id"]);
-        $this->setWidth($arrayData["width"]);
-        $this->setHeight($arrayData["height"]);
-        $this->setThumb(new PhotoSize($arrayData["thumb"]));
-
-        (isset($arrayData["file_size"])) && $this->setFileSize($arrayData["file_size"]);
+        return $this->file_size;
     }
 
-    /** @return array */
-    public function extract()
+    /**
+     * @param int|NULL $file_size
+     */
+    public function setFileSize($file_size)
     {
-        $data["file_id"] = $this->getFileId();
-        $data["width"] = $this->getWidth();
-        $data["height"] = $this->getHeight();
-        $data["thumb"] = $this->getThumb()->extract();
-
-        ($this->getFileSize() !== NULL) && ($data["file_size"] = $this->getFileSize());
-
-        return $data;
+        $this->file_size = $file_size;
     }
 }

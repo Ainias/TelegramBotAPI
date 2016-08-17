@@ -2,7 +2,7 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class Update implements TypeInterface
+class Update extends TypeObject
 {
     private $update_id;
     /** @var  Message |NULL */

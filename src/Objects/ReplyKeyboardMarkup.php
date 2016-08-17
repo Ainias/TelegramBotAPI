@@ -2,7 +2,7 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class ReplyKeyboardMarkup implements TypeInterface
+class ReplyKeyboardMarkup extends TypeObject
 {
     private $keyboard;
     /** @var  bool */

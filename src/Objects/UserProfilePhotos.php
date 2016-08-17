@@ -2,25 +2,34 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class UserProfilePhotos implements TypeInterface
+class UserProfilePhotos extends TypeObject
 {
+    /** @var  integer */
     private $total_count;
+
     /** @var  PhotoSize[][] */
     private $photos;
 
-    public function __construct($arrayData = NULL)
+    /**
+     * @return int
+     */
+    public function getTotalCount(): int
     {
-        $this->photos = array();
-        if (is_array($arrayData))
-        {
-            $this->hydrate($arrayData);
-        }
+        return $this->total_count;
+    }
+
+    /**
+     * @param int $total_count
+     */
+    public function setTotalCount(int $total_count)
+    {
+        $this->total_count = $total_count;
     }
 
     /**
      * @return PhotoSize[][]
      */
-    public function getPhotos()
+    public function getPhotos(): array
     {
         return $this->photos;
     }
@@ -28,49 +37,18 @@ class UserProfilePhotos implements TypeInterface
     /**
      * @param PhotoSize[][] $photos
      */
-    public function setPhotos($photos)
+    public function setPhotos(array $photos)
     {
-        $this->photos = $photos;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTotalCount()
-    {
-        return $this->total_count;
-    }
-
-    /**
-     * @param mixed $total_count
-     */
-    public function setTotalCount($total_count)
-    {
-        $this->total_count = $total_count;
-    }
-
-    public function hydrate($arrayData)
-    {
-        $this->setTotalCount($arrayData["total_count"]);
-        $photos = array();
-        foreach($arrayData["photos"] as $photo)
+        if (is_array($photos) && is_array($photos[0]))
         {
-            $photos[] = PhotoSize::hydrateArray($photo);
+            if (is_array($photos[0][0]))
+            {
+                foreach ($photos as &$photo)
+                {
+                    $photo = self::hydrateArray($photo, PhotoSize::class);
+                }
+            }
+            $this->photos = $photos;
         }
-        $this->setPhotos($photos);
-    }
-
-    /** @return array */
-    public function extract()
-    {
-        $data["total_count"] = $this->getTotalCount();
-        $photos = array();
-        foreach($this->getPhotos() as $photo)
-        {
-            $photos[] = PhotoSize::extractArray($photo);
-        }
-        $data["photos"] = $photos;
-
-        return $data;
     }
 }

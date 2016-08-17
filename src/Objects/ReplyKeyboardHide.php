@@ -2,7 +2,7 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class ReplyKeyboardHide implements TypeInterface
+class ReplyKeyboardHide extends TypeObject
 {
     private $hide_keyboard;
     /** @var  bool */

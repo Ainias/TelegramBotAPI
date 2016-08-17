@@ -2,38 +2,54 @@
 
 namespace Ainias\TelegramBot\Objects;
 
-class Contact implements TypeInterface
+class Contact extends TypeObject
 {
+    /** @var  string */
     private $phone_number;
+
+    /** @var  string */
     private $first_name;
+
+    /** @var  string | null */
     private $last_name;
+
+    /** @var  integer | null */
     private $user_id;
 
-    public function __construct($arrayData = NULL)
+    /**
+     * @return string
+     */
+    public function getPhoneNumber(): string
     {
-        if (is_array($arrayData)) {
-            $this->hydrate($arrayData);
-        }
+        return $this->phone_number;
     }
 
     /**
-     * @return mixed
+     * @param string $phone_number
      */
-    public function getFirstName()
+    public function setPhoneNumber(string $phone_number)
+    {
+        $this->phone_number = $phone_number;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
     {
         return $this->first_name;
     }
 
     /**
-     * @param mixed $first_name
+     * @param string $first_name
      */
-    public function setFirstName($first_name)
+    public function setFirstName(string $first_name)
     {
         $this->first_name = $first_name;
     }
 
     /**
-     * @return mixed
+     * @return null|string
      */
     public function getLastName()
     {
@@ -41,7 +57,7 @@ class Contact implements TypeInterface
     }
 
     /**
-     * @param mixed $last_name
+     * @param null|string $last_name
      */
     public function setLastName($last_name)
     {
@@ -49,23 +65,7 @@ class Contact implements TypeInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function getPhoneNumber()
-    {
-        return $this->phone_number;
-    }
-
-    /**
-     * @param mixed $phone_number
-     */
-    public function setPhoneNumber($phone_number)
-    {
-        $this->phone_number = $phone_number;
-    }
-
-    /**
-     * @return mixed
+     * @return int|null
      */
     public function getUserId()
     {
@@ -73,32 +73,10 @@ class Contact implements TypeInterface
     }
 
     /**
-     * @param mixed $user_id
+     * @param int|null $user_id
      */
     public function setUserId($user_id)
     {
         $this->user_id = $user_id;
     }
-
-    public function hydrate($arrayData)
-    {
-        $this->setPhoneNumber($arrayData["phone_number"]);
-        $this->setFirstName($arrayData["first_name"]);
-
-        (isset($arrayData["last_name"])) && $this->setLastName($arrayData["last_name"]);
-        (isset($arrayData["user_id"])) && $this->setUserId($arrayData["user_id"]);
-    }
-
-    /** @return array */
-    public function extract()
-    {
-        $data["phone_number"] = $this->getPhoneNumber();
-        $data["first_name"] = $this->getFirstName();
-
-        ($this->getLastName() !== NULL) && ($data["last_name"] = $this->getLastName());
-        ($this->getUserId() !== NULL) && ($data["user_id"] = $this->getUserId());
-
-        return $data;
-    }
-
 }

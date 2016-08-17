@@ -1,19 +1,26 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: silas
+ * Date: 17.08.16
+ * Time: 21:58
+ */
 
 namespace Ainias\TelegramBot\Objects;
 
-class PhotoSize extends TypeObject
+
+class Voice extends TypeObject
 {
     /** @var  string */
     private $file_id;
 
-    /** @var integer */
-    private $width;
-
     /** @var  integer */
-    private $height;
+    private $duration;
 
-    /** @var  integer | NULL */
+    /** @var  string | null */
+    private $mime_type;
+
+    /** @var  integer | null */
     private $file_size;
 
     /**
@@ -35,37 +42,37 @@ class PhotoSize extends TypeObject
     /**
      * @return int
      */
-    public function getWidth(): int
+    public function getDuration(): int
     {
-        return $this->width;
+        return $this->duration;
     }
 
     /**
-     * @param int $width
+     * @param int $duration
      */
-    public function setWidth(int $width)
+    public function setDuration(int $duration)
     {
-        $this->width = $width;
+        $this->duration = $duration;
     }
 
     /**
-     * @return int
+     * @return null|string
      */
-    public function getHeight(): int
+    public function getMimeType()
     {
-        return $this->height;
+        return $this->mime_type;
     }
 
     /**
-     * @param int $height
+     * @param null|string $mime_type
      */
-    public function setHeight(int $height)
+    public function setMimeType($mime_type)
     {
-        $this->height = $height;
+        $this->mime_type = $mime_type;
     }
 
     /**
-     * @return int|NULL
+     * @return int|null
      */
     public function getFileSize()
     {
@@ -73,12 +80,10 @@ class PhotoSize extends TypeObject
     }
 
     /**
-     * @param int|NULL $file_size
+     * @param int|null $file_size
      */
     public function setFileSize($file_size)
     {
         $this->file_size = $file_size;
     }
-
-
 }
