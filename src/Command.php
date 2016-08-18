@@ -33,6 +33,11 @@ class Command {
         $this->arguments[$key] = $value;
     }
 
+    public function unsetArgument($key)
+    {
+        unset($this->arguments[$key]);
+    }
+
     public function getParams()
     {
         $params = http_build_query($this->arguments);

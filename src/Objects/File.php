@@ -67,6 +67,4 @@ class File extends TypeObject
     {
         $this->file_path = $file_path;
     }
-
-
 }

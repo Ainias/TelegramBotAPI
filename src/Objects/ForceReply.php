@@ -6,22 +6,14 @@ class ForceReply extends TypeObject
 {
     /** @var  bool */
     private $force_reply;
-    /** @var  bool */
-    private $selective;
 
-    public function __construct($arrayData = NULL)
-    {
-        $this->setForceReply(true);
-        if (is_array($arrayData))
-        {
-            $this->hydrate($arrayData);
-        }
-    }
+    /** @var  bool | null */
+    private $selective;
 
     /**
      * @return boolean
      */
-    public function isForceReply()
+    public function isForceReply(): bool
     {
         return $this->force_reply;
     }
@@ -29,40 +21,24 @@ class ForceReply extends TypeObject
     /**
      * @param boolean $force_reply
      */
-    public function setForceReply($force_reply)
+    public function setForceReply(bool $force_reply)
     {
         $this->force_reply = $force_reply;
     }
 
     /**
-     * @return boolean
+     * @return bool|null
      */
-    public function isSelective()
+    public function getSelective()
     {
         return $this->selective;
     }
 
     /**
-     * @param boolean $selective
+     * @param bool|null $selective
      */
     public function setSelective($selective)
     {
         $this->selective = $selective;
-    }
-
-    public function hydrate($arrayData)
-    {
-        $this->setForceReply($arrayData["force_reply"]); //Should always be true
-        isset($arrayData["selective"]) && $this->setSelective($arrayData["selective"]);
-    }
-
-    /** @return array */
-    public function extract()
-    {
-        $data["force_reply"] = $this->isForceReply();
-
-        ($this->isSelective() !== NULL) && ($data["selective"] = $this->isSelective());
-
-        return $data;
     }
 }

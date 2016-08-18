@@ -4,64 +4,41 @@ namespace Ainias\TelegramBot\Objects;
 
 class ReplyKeyboardHide extends TypeObject
 {
+    /** @var  boolean */
     private $hide_keyboard;
-    /** @var  bool */
+
+    /** @var  bool | null */
     private $selective;
 
-    public function __construct($arrayData = NULL)
-    {
-        $this->setHideKeyboard(true);
-        if (is_array($arrayData))
-        {
-            $this->hydrate($arrayData);
-        }
-    }
-
     /**
-     * @return mixed
+     * @return boolean
      */
-    public function getHideKeyboard()
+    public function isHideKeyboard(): bool
     {
         return $this->hide_keyboard;
     }
 
     /**
-     * @param mixed $hide_keyboard
+     * @param boolean $hide_keyboard
      */
-    public function setHideKeyboard($hide_keyboard)
+    public function setHideKeyboard(bool $hide_keyboard)
     {
         $this->hide_keyboard = $hide_keyboard;
     }
 
     /**
-     * @return boolean
+     * @return bool|null
      */
-    public function isSelective()
+    public function getSelective()
     {
         return $this->selective;
     }
 
     /**
-     * @param boolean $selective
+     * @param bool|null $selective
      */
     public function setSelective($selective)
     {
         $this->selective = $selective;
-    }
-
-    public function hydrate($arrayData)
-    {
-        $this->setHideKeyboard($arrayData["hide_keyboard"]); //should always be true
-        (isset($arrayData["selective"])) && $this->setSelective($arrayData["selective"]);
-    }
-
-    /** @return array */
-    public function extract()
-    {
-        $data["hide_keyboard"] = $this->getHideKeyboard();
-
-        ($this->getHideKeyboard() !== NULL) && ($data["hide_keyboard"] = $this->getHideKeyboard());
-
-        return $data;
     }
 }

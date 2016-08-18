@@ -4,20 +4,42 @@ namespace Ainias\TelegramBot\Objects;
 
 class Update extends TypeObject
 {
+    /** @var  integer */
     private $update_id;
+
     /** @var  Message |NULL */
     private $message;
 
-    public function __construct($arrayData = NULL)
+    /** @var  Message | null */
+    private $edited_message;
+
+//    /** @var  InlineQuery */
+//    private $inline_query;
+
+//    /** @var  ChoosenInlineResult */
+//    private $chosen_inline_result;
+
+    /** @var  CallbackQuery */
+    private $callback_query;
+
+    /**
+     * @return int
+     */
+    public function getUpdateId(): int
     {
-        if (is_array($arrayData))
-        {
-            $this->hydrate($arrayData);
-        }
+        return $this->update_id;
     }
 
     /**
-     * @return NULL|Message
+     * @param int $update_id
+     */
+    public function setUpdateId(int $update_id)
+    {
+        $this->update_id = $update_id;
+    }
+
+    /**
+     * @return Message|NULL
      */
     public function getMessage()
     {
@@ -25,41 +47,54 @@ class Update extends TypeObject
     }
 
     /**
-     * @param NULL|Message $message
+     * @param Message|NULL $message
      */
     public function setMessage($message)
     {
+        if (is_array($message))
+        {
+            $message = new Message($message);
+        }
         $this->message = $message;
     }
 
     /**
-     * @return mixed
+     * @return Message|null
      */
-    public function getUpdateId()
+    public function getEditedMessage()
     {
-        return $this->update_id;
+        return $this->edited_message;
     }
 
     /**
-     * @param mixed $update_id
+     * @param Message|null $edited_message
      */
-    public function setUpdateId($update_id)
+    public function setEditedMessage($edited_message)
     {
-        $this->update_id = $update_id;
+        if (is_array($edited_message))
+        {
+            $edited_message = new Message($edited_message);
+        }
+        $this->edited_message = $edited_message;
     }
 
-    public function hydrate($arrayData)
+    /**
+     * @return CallbackQuery
+     */
+    public function getCallbackQuery(): CallbackQuery
     {
-        $this->setUpdateId($arrayData["update_id"]);
-        (isset($arrayData["message"])) && $this->setMessage(new Message($arrayData["message"]));
-   }
-
-    /** @return array */
-    public function extract()
-    {
-        $data["update_id"] = $this->getUpdateId();
-
-        ($this->getMessage() != NULL) && ($data["message"] = $this->getMessage()->extract());
+        return $this->callback_query;
     }
 
+    /**
+     * @param CallbackQuery $callback_query
+     */
+    public function setCallbackQuery(CallbackQuery $callback_query)
+    {
+        if (is_array($callback_query))
+        {
+            $callback_query = new CallbackQuery($callback_query);
+        }
+        $this->callback_query = $callback_query;
+    }
 }

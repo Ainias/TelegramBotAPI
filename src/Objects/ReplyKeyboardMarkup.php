@@ -4,65 +4,51 @@ namespace Ainias\TelegramBot\Objects;
 
 class ReplyKeyboardMarkup extends TypeObject
 {
+    /** @var  KeyboardButton[][] */
     private $keyboard;
-    /** @var  bool */
+
+    /** @var  bool | null */
     private $resize_keyboard;
-    /** @var  bool */
+
+    /** @var  bool | null */
     private $one_time_keyboard;
-    /** @var  bool */
+
+    /** @var  bool | null */
     private $selective;
 
-    public function __construct($arrayData = NULL)
-    {
-        $this->setOneTimeKeyboard(true);
-        if (is_array($arrayData))
-        {
-            $this->hydrate($arrayData);
-        }
-    }
-
     /**
-     * @return mixed
+     * @return KeyboardButton[][]
      */
-    public function getKeyboard()
+    public function getKeyboard(): array
     {
         return $this->keyboard;
     }
 
     /**
-     * @param mixed $keyboard
+     * @param KeyboardButton[][] $keyboard
      */
-    public function setKeyboard($keyboard)
+    public function setKeyboard(array $keyboard)
     {
-        $this->keyboard = $keyboard;
+        if (is_array($keyboard) && is_array($keyboard[0])) {
+            if (is_array($keyboard[0][0])) {
+                foreach ($keyboard as &$keyboardButtons) {
+                    $keyboardButtons = self::hydrateArray($keyboardButtons, KeyboardButton::class);
+                }
+            }
+            $this->keyboard = $keyboard;
+        }
     }
 
     /**
-     * @return boolean
+     * @return bool|null
      */
-    public function isOneTimeKeyboard()
-    {
-        return $this->one_time_keyboard;
-    }
-
-    /**
-     * @param boolean $one_time_keyboard
-     */
-    public function setOneTimeKeyboard($one_time_keyboard)
-    {
-        $this->one_time_keyboard = $one_time_keyboard;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isResizeKeyboard()
+    public function getResizeKeyboard()
     {
         return $this->resize_keyboard;
     }
 
     /**
-     * @param boolean $resize_keyboard
+     * @param bool|null $resize_keyboard
      */
     public function setResizeKeyboard($resize_keyboard)
     {
@@ -70,38 +56,34 @@ class ReplyKeyboardMarkup extends TypeObject
     }
 
     /**
-     * @return boolean
+     * @return bool|null
      */
-    public function isSelective()
+    public function getOneTimeKeyboard()
+    {
+        return $this->one_time_keyboard;
+    }
+
+    /**
+     * @param bool|null $one_time_keyboard
+     */
+    public function setOneTimeKeyboard($one_time_keyboard)
+    {
+        $this->one_time_keyboard = $one_time_keyboard;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getSelective()
     {
         return $this->selective;
     }
 
     /**
-     * @param boolean $selective
+     * @param bool|null $selective
      */
     public function setSelective($selective)
     {
         $this->selective = $selective;
-    }
-
-    public function hydrate($arrayData)
-    {
-        $this->setKeyboard($arrayData["keyboard"]);
-        (isset($arrayData["resize_keyboard"])) && $this->setResizeKeyboard($arrayData["resize_keyboard"]);
-        (isset($arrayData["one_time_keyboard"])) && $this->setOneTimeKeyboard($arrayData["one_time_keyboard"]);
-        (isset($arrayData["selective"])) && $this->setSelective($arrayData["selective"]);
-    }
-
-    /** @return array */
-    public function extract()
-    {
-        $data["keyboard"] = $this->getKeyboard();
-
-        ($this->isResizeKeyboard() !== NULL) && ($data["resize_keyboard"] = $this->isResizeKeyboard());
-        ($this->isOneTimeKeyboard() !== NULL) && ($data["one_time_keyboard"] = $this->isOneTimeKeyboard());
-        ($this->isSelective() !== NULL) && ($data["selective"] = $this->isSelective());
-
-        return $data;
     }
 }

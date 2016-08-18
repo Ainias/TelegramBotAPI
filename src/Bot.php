@@ -6,7 +6,11 @@ use Ainias\TelegramBot\Interfaces\CommandBotInterface;
 use Ainias\TelegramBot\Interfaces\ForwardMessageBotInterface;
 use Ainias\TelegramBot\Interfaces\ReplyMessageBot;
 use Ainias\TelegramBot\Interfaces\TextBotInterface;
+use Ainias\TelegramBot\Objects\Chat;
+use Ainias\TelegramBot\Objects\ChatMember;
+use Ainias\TelegramBot\Objects\File;
 use Ainias\TelegramBot\Objects\ForceReply;
+use Ainias\TelegramBot\Objects\InlineKeyboardMarkup;
 use Ainias\TelegramBot\Objects\Message;
 use Ainias\TelegramBot\Objects\ReplyKeyboardHide;
 use Ainias\TelegramBot\Objects\ReplyKeyboardMarkup;
@@ -117,6 +121,9 @@ class Bot
         return $response;
     }
 
+    /**
+     * @return User
+     */
     public function getMe()
     {
         $command = new Command("getMe");
@@ -125,33 +132,33 @@ class Bot
         return $user;
     }
 
-    public function getUpdates($offset = NULL, $limit = NULL, $timeout = NULL)
-    {
-        $command = new Command("getUpdates");
-
-        ($offset !== NULL) && $command->setArgument("offset", $offset);
-        ($limit !== NULL) && $command->setArgument("limit", $limit);
-        ($timeout !== NULL) && $command->setArgument("timeout", $timeout);
-
-        $result = $this->sendCommand($command);
-        $updates = array();
-        foreach ($result["result"] as $update) {
-            $updates[] = new Update($update);
-        }
-        return $updates;
-    }
-
-    public function sendMessage($chatId, $text, $disableWebPagePreview = false, $replyToMessageId = NULL, $replyMarkup = NULL)
+    /**
+     * @param $chatId
+     * @param $text
+     * @param string $parseMode
+     * @param bool $disableWebPagePreview
+     * @param bool $disableNotification
+     * @param null $replyToMessageId
+     * @param null $replyMarkup
+     * @return Message
+     */
+    public function sendMessage($chatId, $text, $parseMode = "html", $disableWebPagePreview = false, $disableNotification = false, $replyToMessageId = NULL, $replyMarkup = NULL)
     {
         $command = new Command("sendMessage", array(
             'chat_id' => $chatId,
             'text' => $text,
+            'parse_mode' => $parseMode,
             'disable_web_page_preview' => $disableWebPagePreview,
+            'disable_notification' => $disableNotification,
         ));
 
         ($replyToMessageId !== NULL) && $command->setArgument("reply_to_message_id", $replyToMessageId);
 
-        if ($replyMarkup instanceof ReplyKeyboardMarkup || $replyMarkup instanceof ReplyKeyboardHide || $replyMarkup instanceof ForceReply) {
+        if ($replyMarkup instanceof ReplyKeyboardMarkup ||
+            $replyMarkup instanceof ReplyKeyboardHide ||
+            $replyMarkup instanceof ForceReply ||
+            $replyMarkup instanceof InlineKeyboardMarkup
+        ) {
             $command->setArgument("reply_markup", json_encode($replyMarkup->extract()));
         }
 
@@ -160,12 +167,20 @@ class Bot
         return $message;
     }
 
-    public function forwardMessage($toChatId, $fromChatId, $messageId)
+    /**
+     * @param $toChatId
+     * @param $fromChatId
+     * @param $messageId
+     * @param bool $disableNotification
+     * @return Message
+     */
+    public function forwardMessage($toChatId, $fromChatId, $messageId, $disableNotification = false)
     {
         $command = new Command("forwardMessage", array(
             'chat_id' => $toChatId,
             'from_chat_id' => $fromChatId,
             'message_id' => $messageId,
+            'disable_notification' => $disableNotification,
         ));
 
         $result = $this->sendCommand($command);
@@ -173,37 +188,91 @@ class Bot
         return $message;
     }
 
-    /*
-    public function sendPhoto($chatId, $photo, $caption = NULL, $replyToMessageId = NULL, $replyMarkup = NULL)
-    {
-        $command = new Command("sendPhoto", array(
-            'chat_id' => $chatId,
-            'from_chat_id' => $fromChatId,
-            'message_id' => $messageId,
-        ));
 
-        $result = $this->sendCommand($command);
-        $message = new Message($result["result"]);
-        return $message;
-    }
-    */
+//    public function sendPhoto($chatId, $photo, $caption = NULL, $replyToMessageId = NULL, $replyMarkup = NULL)
+//    {
+//        $command = new Command("sendPhoto", array(
+//            'chat_id' => $chatId,
+//            'photo' => $fromChatId,
+//            'message_id' => $messageId,
+//        ));
+//
+//        $result = $this->sendCommand($command);
+//        $message = new Message($result["result"]);
+//        return $message;
+//    }
 
     //public function sendAudio();
     //public function sendDocument();
     //public function sendSticker();
     //public function sendVideo();
+    //public function sendVoice();
 
-    public function sendLocation($chatId, $latitude, $longitude, $replyToMessageId = NULL, $replyMarkup = NULL)
+    public function sendLocation($chatId, $latitude, $longitude, $disableNotification = false, $replyToMessageId = NULL, $replyMarkup = NULL)
     {
         $command = new Command("sendLocation", array(
             'chat_id' => $chatId,
             'latitude' => $latitude,
             'longitude' => $longitude,
+            'disable_notification' => $disableNotification,
         ));
 
         ($replyToMessageId !== NULL) && $command->setArgument("reply_to_message_id", $replyToMessageId);
 
-        if ($replyMarkup instanceof ReplyKeyboardMarkup || $replyMarkup instanceof ReplyKeyboardHide || $replyMarkup instanceof ForceReply) {
+        if ($replyMarkup instanceof ReplyKeyboardMarkup ||
+            $replyMarkup instanceof ReplyKeyboardHide ||
+            $replyMarkup instanceof ForceReply ||
+            $replyMarkup instanceof InlineKeyboardMarkup) {
+            $command->setArgument("reply_markup", json_encode($replyMarkup->extract()));
+        }
+
+        $result = $this->sendCommand($command);
+        $message = new Message($result["result"]);
+        return $message;
+    }
+
+    public function sendVenue($chatId, $latitude, $longitude, $title, $address, $foursquareId = null, $disableNotification = false, $replyToMessageId = NULL, $replyMarkup = NULL)
+    {
+        $command = new Command("sendVenue", array(
+            'chat_id' => $chatId,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'title' => $title,
+            'address' => $address,
+            'disable_notification' => $disableNotification,
+        ));
+
+        ($replyToMessageId !== NULL) && $command->setArgument("reply_to_message_id", $replyToMessageId);
+        ($foursquareId !== NULL) && $command->setArgument("foursquare_id", $foursquareId);
+
+        if ($replyMarkup instanceof ReplyKeyboardMarkup ||
+            $replyMarkup instanceof ReplyKeyboardHide ||
+            $replyMarkup instanceof ForceReply ||
+            $replyMarkup instanceof InlineKeyboardMarkup) {
+            $command->setArgument("reply_markup", json_encode($replyMarkup->extract()));
+        }
+
+        $result = $this->sendCommand($command);
+        $message = new Message($result["result"]);
+        return $message;
+    }
+
+    public function sendContact($chatId, $phoneNumber, $firstName, $lastName = null, $disableNotification = false, $replyToMessageId = NULL, $replyMarkup = NULL)
+    {
+        $command = new Command("sendContact", array(
+            'chat_id' => $chatId,
+            'phone_number' => $phoneNumber,
+            'first_name' => $firstName,
+            'disable_notification' => $disableNotification,
+        ));
+
+        ($replyToMessageId !== NULL) && $command->setArgument("reply_to_message_id", $replyToMessageId);
+        ($lastName !== NULL) && $command->setArgument("last_name", $lastName);
+
+        if ($replyMarkup instanceof ReplyKeyboardMarkup ||
+            $replyMarkup instanceof ReplyKeyboardHide ||
+            $replyMarkup instanceof ForceReply ||
+            $replyMarkup instanceof InlineKeyboardMarkup) {
             $command->setArgument("reply_markup", json_encode($replyMarkup->extract()));
         }
 
@@ -242,11 +311,129 @@ class Bot
         ));
 
         ($offset !== NULL) && $command->setArgument("offset", $offset);
-        ($limit !== NULL) && $command->setArgument("$limit", $limit);
+        ($limit !== NULL) && $command->setArgument("limit", $limit);
 
         $result = $this->sendCommand($command);
-        $message = new UserProfilePhotos($result["result"]);
-        return $message;
+        $userProfilePhotos = new UserProfilePhotos($result["result"]);
+        return $userProfilePhotos;
+    }
+
+    public function getFile($fileId)
+    {
+        $command = new Command("getFile", [
+            "file_id" => $fileId,
+        ]);
+
+        $result = $this->sendCommand($command);
+        $file = new File($result["result"]);
+        return $file;
+    }
+
+    public function kickChatMember($chatId, $userId)
+    {
+        $command = new Command("kickChatMember", [
+            'chat_id' => $chatId,
+            'user_id' => $userId,
+        ]);
+
+        $result = $this->sendCommand($command);
+        return $result;
+    }
+
+    public function leaveChat($chatId)
+    {
+        $command = new Command("leaveChat", [
+            'chat_id' => $chatId,
+        ]);
+
+        $result = $this->sendCommand($command);
+        return $result;
+    }
+
+    public function unbanChatMember($chatId, $userId)
+    {
+        $command = new Command("unbanChatMember", [
+            'chat_id' => $chatId,
+            'user_id' => $userId
+        ]);
+
+        $result = $this->sendCommand($command);
+        return $result;
+    }
+
+    public function getChat($chatId)
+    {
+        $command = new Command("getChat", [
+            'chat_id' => $chatId,
+        ]);
+
+        $result = $this->sendCommand($command);
+        return new Chat($result);
+    }
+
+    public function getChatAdministrators($chatId)
+    {
+        $command = new Command("getChat", [
+            'chat_id' => $chatId,
+        ]);
+
+        $result = $this->sendCommand($command);
+        $updates = array();
+        foreach ($result["result"] as $update) {
+            $updates[] = new ChatMember($update);
+        }
+        return $updates;
+    }
+
+    public function getChatMembersCount($chatId)
+    {
+        $command = new Command("getChatMembersCount", [
+            'chat_id' => $chatId,
+        ]);
+
+        $result = $this->sendCommand($command);
+        return new Chat($result);
+    }
+
+    public function getChatMember($chatId, $userId)
+    {
+        $command = new Command("getChat", [
+            'chat_id' => $chatId,
+            'user_id' => $userId,
+        ]);
+
+        $result = $this->sendCommand($command);
+        return new ChatMember($result);
+    }
+
+    public function answerCallbackQuery($callbackQueryId, $text = null, $showAlert = false)
+    {
+        $command = new Command("answerCallbackQuery", [
+            'callback_query_id' => $callbackQueryId,
+            'show_alert' => $showAlert,
+        ]);
+
+        ($text !== null) && $command->setArgument("text", $text);
+
+        $result = $this->sendCommand($command);
+        return $result;
+    }
+
+    public function getUpdates($offset = NULL, $limit = 100, $timeout = 0)
+    {
+        $command = new Command("getUpdates", [
+            'limit' => $limit,
+            'timeout' => $timeout,
+        ]);
+
+        ($offset !== NULL) && $command->setArgument("offset", $offset);
+
+        $result = $this->sendCommand($command);
+        $updates = array();
+        foreach ($result["result"] as $update) {
+            $updates[] = new Update($update);
+        }
+        return $updates;
     }
 
     public function setWebhook($url = NULL)
@@ -274,10 +461,10 @@ class Bot
             //handle Text or Command
             if (is_string($text) && strlen($text) > 0) {
                 if ($this instanceof CommandBotInterface && $text[0] == '/') {
-                    self::logBot("Command \"".$text."\" send");
+                    self::logBot("Command \"" . $text . "\" send");
                     $this->handleCommand($message);
                 } elseif ($this instanceof TextBotInterface) {
-                    self::logBot("Message \"".$text."\" send");
+                    self::logBot("Message \"" . $text . "\" send");
                     $this->handleMessageText($message);
                 }
             }
@@ -294,20 +481,18 @@ class Bot
 
     private function logBot($message)
     {
-        if (is_string($message))
-        {
-            $logValue = "<".$this->getUsername().">: ".$message;
+        if (is_string($message)) {
+            $logValue = "<" . $this->getUsername() . ">: " . $message;
             self::log($logValue);
         }
     }
 
     public static function log($message)
     {
-        if (is_string($message))
-        {
+        if (is_string($message)) {
             $time = new \DateTime();
-            $logValue = "[".$time->format("Y-m-d H:i:s.u")."]".$message;
-            file_put_contents("telegramBot.log", $logValue.PHP_EOL, FILE_APPEND);
+            $logValue = "[" . $time->format("Y-m-d H:i:s.u") . "]" . $message;
+            file_put_contents("telegramBot.log", $logValue . PHP_EOL, FILE_APPEND);
         }
     }
 }
