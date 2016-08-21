@@ -348,6 +348,7 @@ class Message extends TypeObject
         $this->video = $video;
     }
 
+
     /**
      * @return Chat
      */
@@ -359,7 +360,7 @@ class Message extends TypeObject
     /**
      * @param Chat $chat
      */
-    public function setChat(Chat $chat)
+    public function setChat($chat)
     {
         if (is_array($chat)) {
             $chat = new Chat($chat);
@@ -417,7 +418,7 @@ class Message extends TypeObject
     {
         if (is_array($entities)) {
             if (is_array($entities[0])) {
-                $entities = self::hydrateArray($entities, MessageEntitiy::class);
+                $entities = self::hydrateArray($entities, MessageEntity::class);
             }
             $this->entities = $entities;
         }

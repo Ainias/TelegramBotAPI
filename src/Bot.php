@@ -481,6 +481,17 @@ class Bot
         }
     }
 
+    /**
+     * @param Update[] $updates
+     */
+    public function handleUpdates($updates)
+    {
+        foreach ($updates as $update)
+        {
+            $this->handleUpdate($update);
+        }
+    }
+
     public static function log($message)
     {
         if (is_string($message)) {
