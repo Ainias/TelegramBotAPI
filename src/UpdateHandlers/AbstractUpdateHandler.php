@@ -22,7 +22,7 @@ abstract class AbstractUpdateHandler
      * @param Bot $bot
      * @return mixed
      */
-    public function handleUpdate(Update $update, $bot)
+    public function handleUpdate(Update $update, Bot $bot)
     {
         if ($this->validator->isAffectedFromUpdate($update, $bot))
         {
@@ -46,5 +46,5 @@ abstract class AbstractUpdateHandler
      * @param Bot $bot
      * @return mixed
      */
-    abstract protected function doUpdate(Update $update, Bot $bot);
+    abstract protected function doUpdate(Update $update, $bot);
 }
