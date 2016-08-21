@@ -2,10 +2,6 @@
 
 namespace Ainias\TelegramBot;
 
-use Ainias\TelegramBot\Interfaces\CommandBotInterface;
-use Ainias\TelegramBot\Interfaces\ForwardMessageBotInterface;
-use Ainias\TelegramBot\Interfaces\ReplyMessageBot;
-use Ainias\TelegramBot\Interfaces\TextBotInterface;
 use Ainias\TelegramBot\Objects\Chat;
 use Ainias\TelegramBot\Objects\ChatMember;
 use Ainias\TelegramBot\Objects\File;
@@ -17,6 +13,7 @@ use Ainias\TelegramBot\Objects\ReplyKeyboardMarkup;
 use Ainias\TelegramBot\Objects\Update;
 use Ainias\TelegramBot\Objects\User;
 use Ainias\TelegramBot\Objects\UserProfilePhotos;
+use Ainias\TelegramBot\UpdateHandlers\AbstractUpdateHandler;
 use Zend\Http\Client;
 
 class Bot
@@ -39,11 +36,15 @@ class Bot
 
     private $token;
 
+    /** @var  AbstractUpdateHandler[] */
+    private $updateHandlers;
+
     public function __construct($userName, $token)
     {
         $this->username = $userName;
         $this->token = $token;
         $this->name = $userName;
+        $this->updateHandlers = [];
     }
 
     /**
@@ -84,6 +85,26 @@ class Bot
     public function getUsername()
     {
         return $this->username;
+    }
+
+    public function addUpdateHandler(AbstractUpdateHandler $abstractUpdateHandler)
+    {
+        if (!in_array($abstractUpdateHandler, $this->updateHandlers))
+        {
+            $this->updateHandlers[] = $abstractUpdateHandler;
+        }
+    }
+
+    public function removeUpdateHandler($index)
+    {
+        if ($index instanceof AbstractUpdateHandler)
+        {
+            $index = array_search($index, $this->updateHandlers);
+        }
+        if ($index !== false)
+        {
+            unset($this->updateHandlers[$index]);
+        }
     }
 
     /**
@@ -454,36 +475,9 @@ class Bot
 
     public function handleUpdate(Update $update)
     {
-        $message = $update->getMessage();
-        if ($message instanceof Message) {
-            $text = $message->getText();
-
-            //handle Text or Command
-            if (is_string($text) && strlen($text) > 0) {
-                if ($this instanceof CommandBotInterface && $text[0] == '/') {
-                    self::logBot("Command \"" . $text . "\" send");
-                    $this->handleCommand($message);
-                } elseif ($this instanceof TextBotInterface) {
-                    self::logBot("Message \"" . $text . "\" send");
-                    $this->handleMessageText($message);
-                }
-            }
-
-            //handle others
-            if ($this instanceof ForwardMessageBotInterface && $message->getForwardFrom() instanceof User) {
-                $this->handleForwardMessage($message);
-            }
-            if ($this instanceof ReplyMessageBot && $message->getReplyToMessage() instanceof Message) {
-                $this->handleReplyMessage($message);
-            }
-        }
-    }
-
-    private function logBot($message)
-    {
-        if (is_string($message)) {
-            $logValue = "<" . $this->getUsername() . ">: " . $message;
-            self::log($logValue);
+        foreach ($this->updateHandlers as $updateHandler)
+        {
+            $updateHandler->handleUpdate($update, $this);
         }
     }
 
