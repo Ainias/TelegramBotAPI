@@ -15,5 +15,5 @@ class NothingToDoUpdateHandler extends \Ainias\TelegramBot\UpdateHandlers\Abstra
 
 $bot = new \Ainias\TelegramBot\Bot($botName, $botToken);
 $bot->addUpdateHandler(new NothingToDoUpdateHandler());
-$updates = $bot->getUpdates();
+$updates = $bot->getUpdates(220959608);
 $bot->handleUpdates($updates);

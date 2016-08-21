@@ -11,6 +11,11 @@ namespace Ainias\TelegramBot\Objects;
 
 class Chat extends TypeObject
 {
+    const TYPE_PRIVATE = "private";
+    const TYPE_GROUP = "group";
+    const TYPE_SUPERGROUP = "supergroup";
+    const TYPE_CHANNEL = "channel";
+
     private $id;
     private $type;
     private $title;
