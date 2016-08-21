@@ -8,18 +8,12 @@
 
 namespace Ainias\TelegramBot\UpdateHandlers;
 
-use Ainias\TelegramBot\Bot;
-use Ainias\TelegramBot\Objects\Update;
+use Ainias\TelegramBot\UpdateHandlers\AffectedValidators\TextValidator;
 
 abstract class AbstractTextHandler extends AbstractUpdateHandler
 {
-    protected function isAffectedFromUpdate(Update $update, Bot $bot)
+    public function __construct()
     {
-        $message = $update->getMessage();
-        if ($message != null)
-        {
-            return ($message->getText() != null);
-        }
-        return false;
+        $this->validator = new TextValidator();
     }
 }

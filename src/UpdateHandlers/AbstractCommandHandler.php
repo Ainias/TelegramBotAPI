@@ -11,23 +11,16 @@ namespace Ainias\TelegramBot\UpdateHandlers;
 use Ainias\TelegramBot\Bot;
 use Ainias\TelegramBot\Objects\MessageEntity;
 use Ainias\TelegramBot\Objects\Update;
+use Ainias\TelegramBot\UpdateHandlers\AffectedValidators\CommandValidator;
 
 abstract class AbstractCommandHandler extends AbstractUpdateHandler
 {
-    protected function isAffectedFromUpdate(Update $update, Bot $bot)
+
+    /**
+     * AbstractCommandHandler constructor.
+     */
+    public function __construct()
     {
-        $message = $update->getMessage();
-        if ($message != null)
-        {
-            $messageEntities = $message->getEntities();
-            foreach ($messageEntities as $messageEntity)
-            {
-                if ($messageEntity->getType() == MessageEntity::TYPE_BOT_COMMAND && $messageEntity->getOffset() == 0)
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
+        $this->validator = new CommandValidator();
     }
 }

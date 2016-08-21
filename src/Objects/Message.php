@@ -138,19 +138,35 @@ class Message extends TypeObject
     }
 
     /**
-     * @return boolean
+     * @return bool|NULL
      */
-    public function isDeleteChatPhoto()
+    public function getDeleteChatPhoto()
     {
         return $this->delete_chat_photo;
     }
 
     /**
-     * @param boolean $delete_chat_phoro
+     * @param bool|NULL $delete_chat_photo
      */
-    public function setDeleteChatPhoto($delete_chat_phoro)
+    public function setDeleteChatPhoto($delete_chat_photo)
     {
-        $this->delete_chat_photo = $delete_chat_phoro;
+        $this->delete_chat_photo = $delete_chat_photo;
+    }
+
+    /**
+     * @return bool|NULL
+     */
+    public function getGroupChatCreated()
+    {
+        return $this->group_chat_created;
+    }
+
+    /**
+     * @param bool|NULL $group_chat_created
+     */
+    public function setGroupChatCreated($group_chat_created)
+    {
+        $this->group_chat_created = $group_chat_created;
     }
 
     /**
@@ -211,22 +227,6 @@ class Message extends TypeObject
             $from = new User($from);
         }
         $this->from = $from;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isGroupChatCreated()
-    {
-        return $this->group_chat_created;
-    }
-
-    /**
-     * @param boolean $group_chat_created
-     */
-    public function setGroupChatCreated($group_chat_created)
-    {
-        $this->group_chat_created = $group_chat_created;
     }
 
     /**
