@@ -133,7 +133,13 @@ class Bot
 
         $client = new Client($url, $config);
         $client->setMethod("POST");
-        $client->setRawBody($paramString);
+        $client->setParameterPost($command->getArguments());
+        $files = $command->getFiles();
+        foreach ($files as $key => $file)
+        {
+            $client->setFileUpload($file, $key);
+        }
+
         $response = $client->send();
         $response = json_decode($response->getBody(), true);
         if ($response["ok"] !== true) {
@@ -210,18 +216,23 @@ class Bot
     }
 
 
-//    public function sendPhoto($chatId, $photo, $caption = NULL, $replyToMessageId = NULL, $replyMarkup = NULL)
-//    {
-//        $command = new Command("sendPhoto", array(
-//            'chat_id' => $chatId,
-//            'photo' => $fromChatId,
-//            'message_id' => $messageId,
-//        ));
-//
-//        $result = $this->sendCommand($command);
-//        $message = new Message($result["result"]);
-//        return $message;
-//    }
+    public function sendPhoto($chatId, $photo, $caption = NULL, $disableNotification = false, $replyToMessageId = NULL, $replyMarkup = NULL)
+    {
+        $command = new Command("sendPhoto", array(
+            'chat_id' => $chatId,
+            'disable_notification' => $disableNotification,
+        ), [
+            'photo' => $photo
+        ]);
+
+        ($caption != null) && $command->setArgument("caption", $caption);
+        $replyToMessageId != null && $command->setArgument("reply_to_message_id", $replyToMessageId);
+        $replyMarkup  != null && $command->setArgument("reply_markup", $replyMarkup);
+
+        $result = $this->sendCommand($command);
+        $message = new Message($result["result"]);
+        return $message;
+    }
 
     //public function sendAudio();
     //public function sendDocument();
