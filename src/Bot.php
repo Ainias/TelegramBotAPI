@@ -87,6 +87,11 @@ class Bot
         return $this->username;
     }
 
+    public function getUsernameLowerCase()
+    {
+        return strtolower($this->username);
+    }
+
     public function addUpdateHandler(AbstractUpdateHandler $abstractUpdateHandler)
     {
         if (!in_array($abstractUpdateHandler, $this->updateHandlers))
