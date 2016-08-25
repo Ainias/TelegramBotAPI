@@ -13,7 +13,7 @@
   "require-dev":{},
   "autoload": {
     "psr-4": {
-      "Ainias\\TelegramBot\\": "src"
+      "Ainias\\Library\\TelegramBot\\": "src"
     }
   }
 }
