@@ -6,7 +6,7 @@
  * Time: 17:48
  */
 
-namespace Ainias\TelegramBot\Objects;
+namespace Ainias\Library\TelegramBot\Objects;
 
 
 class ChatMember extends TypeObject

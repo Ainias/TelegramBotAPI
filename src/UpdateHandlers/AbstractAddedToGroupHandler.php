@@ -6,11 +6,11 @@
  * Time: 11:59
  */
 
-namespace Ainias\TelegramBot\UpdateHandlers;
+namespace Ainias\Library\TelegramBot\UpdateHandlers;
 
-use Ainias\TelegramBot\UpdateHandlers\AffectedValidators\AddedToGroupValidator;
-use Ainias\TelegramBot\UpdateHandlers\AffectedValidators\AggregatedValidator;
-use Ainias\TelegramBot\UpdateHandlers\AffectedValidators\GroupChatCreatedValidator;
+use Ainias\Library\TelegramBot\UpdateHandlers\AffectedValidators\AddedToGroupValidator;
+use Ainias\Library\TelegramBot\UpdateHandlers\AffectedValidators\AggregatedValidator;
+use Ainias\Library\TelegramBot\UpdateHandlers\AffectedValidators\GroupChatCreatedValidator;
 
 abstract class AbstractAddedToGroupHandler extends AbstractUpdateHandler
 {

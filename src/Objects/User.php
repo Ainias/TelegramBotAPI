@@ -1,6 +1,6 @@
 <?php
 
-namespace Ainias\TelegramBot\Objects;
+namespace Ainias\Library\TelegramBot\Objects;
 
 class User extends TypeObject
 {

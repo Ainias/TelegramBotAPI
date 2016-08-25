@@ -6,11 +6,11 @@
  * Time: 12:05
  */
 
-namespace Ainias\TelegramBot\UpdateHandlers\AffectedValidators;
+namespace Ainias\Library\TelegramBot\UpdateHandlers\AffectedValidators;
 
 
-use Ainias\TelegramBot\Bot;
-use Ainias\TelegramBot\Objects\Update;
+use Ainias\Library\TelegramBot\Bot;
+use Ainias\Library\TelegramBot\Objects\Update;
 
 class AddedToGroupValidator extends NewChatMemberValidator
 {

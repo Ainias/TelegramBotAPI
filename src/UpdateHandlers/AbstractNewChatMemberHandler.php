@@ -6,10 +6,10 @@
  * Time: 11:41
  */
 
-namespace Ainias\TelegramBot\UpdateHandlers;
+namespace Ainias\Library\TelegramBot\UpdateHandlers;
 
 
-use Ainias\TelegramBot\UpdateHandlers\AffectedValidators\NewChatMemberValidator;
+use Ainias\Library\TelegramBot\UpdateHandlers\AffectedValidators\NewChatMemberValidator;
 
 abstract class AbstractNewChatMemberHandler extends AbstractUpdateHandler
 {

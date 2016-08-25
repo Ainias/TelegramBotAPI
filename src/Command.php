@@ -1,6 +1,6 @@
 <?php
 
-namespace Ainias\TelegramBot;
+namespace Ainias\Library\TelegramBot;
 
 class Command {
     private $command;

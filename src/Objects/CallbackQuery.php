@@ -6,7 +6,7 @@
  * Time: 17:45
  */
 
-namespace Ainias\TelegramBot\Objects;
+namespace Ainias\Library\TelegramBot\Objects;
 
 class CallbackQuery extends TypeObject
 {

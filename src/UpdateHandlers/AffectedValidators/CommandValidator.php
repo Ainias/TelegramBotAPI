@@ -6,12 +6,12 @@
  * Time: 11:45
  */
 
-namespace Ainias\TelegramBot\UpdateHandlers\AffectedValidators;
+namespace Ainias\Library\TelegramBot\UpdateHandlers\AffectedValidators;
 
 
-use Ainias\TelegramBot\Bot;
-use Ainias\TelegramBot\Objects\MessageEntity;
-use Ainias\TelegramBot\Objects\Update;
+use Ainias\Library\TelegramBot\Bot;
+use Ainias\Library\TelegramBot\Objects\MessageEntity;
+use Ainias\Library\TelegramBot\Objects\Update;
 
 class CommandValidator extends AbstractAffectedValidator
 {

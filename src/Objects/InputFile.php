@@ -6,7 +6,7 @@
  * Time: 17:50
  */
 
-namespace Ainias\TelegramBot\Objects;
+namespace Ainias\Library\TelegramBot\Objects;
 
 class InputFile extends TypeObject
 {

@@ -6,7 +6,7 @@
  * Time: 22:00
  */
 
-namespace Ainias\TelegramBot\Objects;
+namespace Ainias\Library\TelegramBot\Objects;
 
 
 class Venue extends TypeObject

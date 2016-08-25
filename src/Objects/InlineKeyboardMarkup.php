@@ -6,7 +6,7 @@
  * Time: 17:40
  */
 
-namespace Ainias\TelegramBot\Objects;
+namespace Ainias\Library\TelegramBot\Objects;
 
 
 class InlineKeyboardMarkup extends TypeObject

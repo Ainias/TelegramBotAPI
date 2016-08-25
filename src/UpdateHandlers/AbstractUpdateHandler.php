@@ -6,11 +6,11 @@
  * Time: 10:54
  */
 
-namespace Ainias\TelegramBot\UpdateHandlers;
+namespace Ainias\Library\TelegramBot\UpdateHandlers;
 
-use Ainias\TelegramBot\Bot;
-use Ainias\TelegramBot\Objects\Update;
-use Ainias\TelegramBot\UpdateHandlers\AffectedValidators\AbstractAffectedValidator;
+use Ainias\Library\TelegramBot\Bot;
+use Ainias\Library\TelegramBot\Objects\Update;
+use Ainias\Library\TelegramBot\UpdateHandlers\AffectedValidators\AbstractAffectedValidator;
 
 abstract class AbstractUpdateHandler
 {

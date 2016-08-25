@@ -6,7 +6,7 @@
  * Time: 21:58
  */
 
-namespace Ainias\TelegramBot\Objects;
+namespace Ainias\Library\TelegramBot\Objects;
 
 
 class Voice extends TypeObject

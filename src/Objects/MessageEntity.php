@@ -6,7 +6,7 @@
  * Time: 21:46
  */
 
-namespace Ainias\TelegramBot\Objects;
+namespace Ainias\Library\TelegramBot\Objects;
 
 
 class MessageEntity extends TypeObject

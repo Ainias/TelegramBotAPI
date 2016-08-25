@@ -6,7 +6,7 @@
  * Time: 17:42
  */
 
-namespace Ainias\TelegramBot\Objects;
+namespace Ainias\Library\TelegramBot\Objects;
 
 class InlineKeyboardButton extends TypeObject
 {

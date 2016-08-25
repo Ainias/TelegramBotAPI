@@ -1,19 +1,19 @@
 <?php
 
-namespace Ainias\TelegramBot;
+namespace Ainias\Library\TelegramBot;
 
-use Ainias\TelegramBot\Objects\Chat;
-use Ainias\TelegramBot\Objects\ChatMember;
-use Ainias\TelegramBot\Objects\File;
-use Ainias\TelegramBot\Objects\ForceReply;
-use Ainias\TelegramBot\Objects\InlineKeyboardMarkup;
-use Ainias\TelegramBot\Objects\Message;
-use Ainias\TelegramBot\Objects\ReplyKeyboardHide;
-use Ainias\TelegramBot\Objects\ReplyKeyboardMarkup;
-use Ainias\TelegramBot\Objects\Update;
-use Ainias\TelegramBot\Objects\User;
-use Ainias\TelegramBot\Objects\UserProfilePhotos;
-use Ainias\TelegramBot\UpdateHandlers\AbstractUpdateHandler;
+use Ainias\Library\TelegramBot\Objects\Chat;
+use Ainias\Library\TelegramBot\Objects\ChatMember;
+use Ainias\Library\TelegramBot\Objects\File;
+use Ainias\Library\TelegramBot\Objects\ForceReply;
+use Ainias\Library\TelegramBot\Objects\InlineKeyboardMarkup;
+use Ainias\Library\TelegramBot\Objects\Message;
+use Ainias\Library\TelegramBot\Objects\ReplyKeyboardHide;
+use Ainias\Library\TelegramBot\Objects\ReplyKeyboardMarkup;
+use Ainias\Library\TelegramBot\Objects\Update;
+use Ainias\Library\TelegramBot\Objects\User;
+use Ainias\Library\TelegramBot\Objects\UserProfilePhotos;
+use Ainias\Library\TelegramBot\UpdateHandlers\AbstractUpdateHandler;
 use Zend\Http\Client;
 
 class Bot

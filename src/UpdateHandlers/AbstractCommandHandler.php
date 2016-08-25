@@ -6,9 +6,9 @@
  * Time: 11:01
  */
 
-namespace Ainias\TelegramBot\UpdateHandlers;
+namespace Ainias\Library\TelegramBot\UpdateHandlers;
 
-use Ainias\TelegramBot\UpdateHandlers\AffectedValidators\CommandValidator;
+use Ainias\Library\TelegramBot\UpdateHandlers\AffectedValidators\CommandValidator;
 
 abstract class AbstractCommandHandler extends AbstractUpdateHandler
 {
