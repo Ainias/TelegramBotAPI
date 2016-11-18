@@ -10,6 +10,7 @@ use Ainias\Library\TelegramBot\Objects\InlineKeyboardMarkup;
 use Ainias\Library\TelegramBot\Objects\Message;
 use Ainias\Library\TelegramBot\Objects\ReplyKeyboardHide;
 use Ainias\Library\TelegramBot\Objects\ReplyKeyboardMarkup;
+use Ainias\Library\TelegramBot\Objects\TypeObject;
 use Ainias\Library\TelegramBot\Objects\Update;
 use Ainias\Library\TelegramBot\Objects\User;
 use Ainias\Library\TelegramBot\Objects\UserProfilePhotos;
@@ -94,20 +95,17 @@ class Bot
 
     public function addUpdateHandler(AbstractUpdateHandler $abstractUpdateHandler)
     {
-        if (!in_array($abstractUpdateHandler, $this->updateHandlers))
-        {
+        if (!in_array($abstractUpdateHandler, $this->updateHandlers)) {
             $this->updateHandlers[] = $abstractUpdateHandler;
         }
     }
 
     public function removeUpdateHandler($index)
     {
-        if ($index instanceof AbstractUpdateHandler)
-        {
+        if ($index instanceof AbstractUpdateHandler) {
             $index = array_search($index, $this->updateHandlers);
         }
-        if ($index !== false)
-        {
+        if ($index !== false) {
             unset($this->updateHandlers[$index]);
         }
     }
@@ -140,8 +138,7 @@ class Bot
         $client->setMethod("POST");
         $client->setParameterPost($command->getArguments());
         $files = $command->getFiles();
-        foreach ($files as $key => $file)
-        {
+        foreach ($files as $key => $file) {
             $client->setFileUpload($file, $key);
         }
 
@@ -223,16 +220,24 @@ class Bot
 
     public function sendPhoto($chatId, $photo, $caption = NULL, $disableNotification = false, $replyToMessageId = NULL, $replyMarkup = NULL)
     {
-        $command = new Command("sendPhoto", array(
-            'chat_id' => $chatId,
-            'disable_notification' => $disableNotification,
-        ), [
-            'photo' => $photo
-        ]);
+        if ($photo instanceof TypeObject) {
+            $command = new Command("sendPhoto", array(
+                'chat_id' => $chatId,
+                'disable_notification' => $disableNotification,
+            ), [
+                'photo' => $photo
+            ]);
+        } else {
+            $command = new Command("sendPhoto", array(
+                'chat_id' => $chatId,
+                'disable_notification' => $disableNotification,
+                'photo' => $photo
+            ));
+        }
 
         ($caption != null) && $command->setArgument("caption", $caption);
         $replyToMessageId != null && $command->setArgument("reply_to_message_id", $replyToMessageId);
-        $replyMarkup  != null && $command->setArgument("reply_markup", $replyMarkup);
+        $replyMarkup != null && $command->setArgument("reply_markup", $replyMarkup);
 
         $result = $this->sendCommand($command);
         $message = new Message($result["result"]);
@@ -259,7 +264,8 @@ class Bot
         if ($replyMarkup instanceof ReplyKeyboardMarkup ||
             $replyMarkup instanceof ReplyKeyboardHide ||
             $replyMarkup instanceof ForceReply ||
-            $replyMarkup instanceof InlineKeyboardMarkup) {
+            $replyMarkup instanceof InlineKeyboardMarkup
+        ) {
             $command->setArgument("reply_markup", json_encode($replyMarkup->extract()));
         }
 
@@ -285,7 +291,8 @@ class Bot
         if ($replyMarkup instanceof ReplyKeyboardMarkup ||
             $replyMarkup instanceof ReplyKeyboardHide ||
             $replyMarkup instanceof ForceReply ||
-            $replyMarkup instanceof InlineKeyboardMarkup) {
+            $replyMarkup instanceof InlineKeyboardMarkup
+        ) {
             $command->setArgument("reply_markup", json_encode($replyMarkup->extract()));
         }
 
@@ -309,7 +316,8 @@ class Bot
         if ($replyMarkup instanceof ReplyKeyboardMarkup ||
             $replyMarkup instanceof ReplyKeyboardHide ||
             $replyMarkup instanceof ForceReply ||
-            $replyMarkup instanceof InlineKeyboardMarkup) {
+            $replyMarkup instanceof InlineKeyboardMarkup
+        ) {
             $command->setArgument("reply_markup", json_encode($replyMarkup->extract()));
         }
 
@@ -491,8 +499,7 @@ class Bot
 
     public function handleUpdate(Update $update)
     {
-        foreach ($this->updateHandlers as $updateHandler)
-        {
+        foreach ($this->updateHandlers as $updateHandler) {
             $updateHandler->handleUpdate($update, $this);
         }
     }
@@ -502,8 +509,7 @@ class Bot
      */
     public function handleUpdates($updates)
     {
-        foreach ($updates as $update)
-        {
+        foreach ($updates as $update) {
             $this->handleUpdate($update);
         }
     }
