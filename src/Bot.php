@@ -145,7 +145,7 @@ class Bot
         $response = $client->send();
         $response = json_decode($response->getBody(), true);
         if ($response["ok"] !== true) {
-            throw new \Exception("Es gab einen Fehler bei der Funktion: \"" . $response["description"] . "\"");
+            throw new TelegramBotError($response["description"], "Es gab einen Fehler bei der Funktion: \"" . $response["description"] . "\"");
         }
         return $response;
     }
