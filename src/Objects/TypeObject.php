@@ -71,11 +71,12 @@ class TypeObject
 
     private static function decamelize($word)
     {
-        return preg_replace(
-            '/(^|[a-z])([A-Z])/e',
-            'strtolower(strlen("\\1") ? "\\1_\\2" : "\\2")',
-            $word
-        );
+        preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $word, $matches);
+        $ret = $matches[0];
+        foreach ($ret as &$match) {
+            $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+        }
+        return implode('_', $ret);
     }
 
     function camelize($scored)
