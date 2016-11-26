@@ -227,7 +227,7 @@ class Bot
         ($chatId != null) && $command->setArgument("chat_id", $chatId);
         ($messageId != null) && $command->setArgument("message_id", $messageId);
         ($inlineMessageId != null) && $command->setArgument("inline_message_id", $inlineMessageId);
-        ($replyMarkup != null) && $command->setArgument("replyMarkup", json_encode($replyMarkup->extract()));
+        ($replyMarkup != null) && $command->setArgument("reply_markup", json_encode($replyMarkup->extract()));
 
         $result = $this->sendCommand($command);
         $message = new Message($result["result"]);
