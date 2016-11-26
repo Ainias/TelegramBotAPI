@@ -23,7 +23,13 @@ class CallbackQuery extends TypeObject
     private $inline_message_id;
 
     /** @var  string */
+    private $chat_instance;
+
+    /** @var  string */
     private $data;
+
+    /** @var  string */
+    private $game_short_name;
 
     /**
      * @return string
@@ -111,5 +117,37 @@ class CallbackQuery extends TypeObject
     public function setData(string $data)
     {
         $this->data = $data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChatInstance()
+    {
+        return $this->chat_instance;
+    }
+
+    /**
+     * @param string $chat_instance
+     */
+    public function setChatInstance($chat_instance)
+    {
+        $this->chat_instance = $chat_instance;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGameShortName()
+    {
+        return $this->game_short_name;
+    }
+
+    /**
+     * @param string $game_short_name
+     */
+    public function setGameShortName($game_short_name)
+    {
+        $this->game_short_name = $game_short_name;
     }
 }
