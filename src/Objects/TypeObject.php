@@ -40,7 +40,7 @@ class TypeObject
         $methods = get_class_methods($this);
         if ($methods != null) {
             foreach ($methods as $method) {
-                if (substr($method, 0, 3) == "get") {
+                if (substr($method, 0, 3) == "get" || substr($method, 0, 2) == "is") {
                     $value = $this->$method();
                     if ($value != null) {
                         if ($value instanceof TypeObject) {
