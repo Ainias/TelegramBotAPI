@@ -19,7 +19,7 @@ class Update extends TypeObject
 //    /** @var  ChoosenInlineResult */
 //    private $chosen_inline_result;
 
-    /** @var  CallbackQuery */
+    /** @var  CallbackQuery|null */
     private $callback_query;
 
     /**
@@ -79,9 +79,9 @@ class Update extends TypeObject
     }
 
     /**
-     * @return CallbackQuery
+     * @return CallbackQuery|null
      */
-    public function getCallbackQuery(): CallbackQuery
+    public function getCallbackQuery()
     {
         return $this->callback_query;
     }
