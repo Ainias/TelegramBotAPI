@@ -87,9 +87,9 @@ class Update extends TypeObject
     }
 
     /**
-     * @param CallbackQuery $callback_query
+     * @param CallbackQuery|array $callback_query
      */
-    public function setCallbackQuery(CallbackQuery $callback_query)
+    public function setCallbackQuery($callback_query)
     {
         if (is_array($callback_query))
         {
