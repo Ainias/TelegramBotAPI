@@ -219,7 +219,7 @@ class Bot
 
     public function editMessageText($text, $chatId = null, $messageId = null, $inlineMessageId = null, $parseMode = "html", $disableWebPagePreview = false, $replyMarkup = null)
     {
-        $command = new Command("forwardMessage", array(
+        $command = new Command("editMessageText", array(
             'text' => $text,
             'parseMode' => $parseMode,
             'disableWebPagePreview' => $disableWebPagePreview,
