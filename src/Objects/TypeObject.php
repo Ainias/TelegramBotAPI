@@ -53,6 +53,7 @@ class TypeObject
                 }
             }
         }
+        return $data;
     }
 
     private function extractArray($arr)
