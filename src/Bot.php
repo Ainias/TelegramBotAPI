@@ -217,6 +217,23 @@ class Bot
         return $message;
     }
 
+    public function editMessageText($text, $chatId = null, $messageId = null, $inlineMessageId = null, $parseMode = "html", $disableWebPagePreview = false, $replyMarkup = null)
+    {
+        $command = new Command("forwardMessage", array(
+            'text' => $text,
+            'parseMode' => $parseMode,
+            'disableWebPagePreview' => $disableWebPagePreview,
+        ));
+        ($chatId != null) && $command->setArgument("chat_id", $chatId);
+        ($messageId != null) && $command->setArgument("message_id", $messageId);
+        ($inlineMessageId != null) && $command->setArgument("inline_message_id", $inlineMessageId);
+        ($replyMarkup != null) && $command->setArgument("replyMarkup", json_encode($replyMarkup->extract()));
+
+        $result = $this->sendCommand($command);
+        $message = new Message($result["result"]);
+        return $message;
+    }
+
 
     public function sendPhoto($chatId, $photo, $caption = NULL, $disableNotification = false, $replyToMessageId = NULL, $replyMarkup = NULL)
     {
