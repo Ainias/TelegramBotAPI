@@ -56,9 +56,9 @@ class CallbackQuery extends TypeObject
     }
 
     /**
-     * @param User $from
+     * @param User|array $from
      */
-    public function setFrom(User $from)
+    public function setFrom($from)
     {
         if (is_array($from))
         {
