@@ -15,6 +15,7 @@ use Ainias\Library\TelegramBot\Objects\Update;
 use Ainias\Library\TelegramBot\Objects\User;
 use Ainias\Library\TelegramBot\Objects\UserProfilePhotos;
 use Ainias\Library\TelegramBot\UpdateHandlers\AbstractUpdateHandler;
+use MongoDB\BSON\Type;
 use Zend\Http\Client;
 
 class Bot
@@ -512,6 +513,23 @@ class Bot
             file_put_contents("log.log", "URL Webhook-Exception: " . $e->getMessage() . "\n", FILE_APPEND);
             die($e->getMessage());
         }
+    }
+
+    public function answerInlineQuery($inline_query_id, $results, $cache_time = 300, $is_personal = false, $next_offset = null, $switch_pm_text = null, $switch_pm_parameter = null)
+    {
+        $command = new Command("answerInlineQuery", [
+            "inline_query_id" => $inline_query_id,
+            "results" => TypeObject::staticExtractArray($results),
+            "cache_time" => $cache_time,
+            "is_personal" => $is_personal
+        ]);
+
+        ($next_offset !== NULL) && $command->setArgument("next_offset", $next_offset);
+        ($switch_pm_text !== NULL) && $command->setArgument("switch_pm_text", $switch_pm_text);
+        ($switch_pm_parameter !== NULL) && $command->setArgument("switch_pm_parameter", $switch_pm_parameter);
+
+        $result = $this->sendCommand($command);
+        return $result;
     }
 
     public function handleUpdate(Update $update)

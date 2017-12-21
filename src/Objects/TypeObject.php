@@ -33,6 +33,15 @@ class TypeObject
         return $array;
     }
 
+    public static function staticExtractArray($array){
+        $data = [];
+        foreach ($array as $elem)
+        {
+            $data[] = $elem->extract();
+        }
+        return $data;
+    }
+
     /** @return array */
     public function extract()
     {

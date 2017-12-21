@@ -2,6 +2,8 @@
 
 namespace Ainias\Library\TelegramBot\Objects;
 
+use Ainias\Library\TelegramBot\Objects\Inline\InlineQuery;
+
 class Update extends TypeObject
 {
     /** @var  integer */
@@ -13,8 +15,8 @@ class Update extends TypeObject
     /** @var  Message | null */
     private $edited_message;
 
-//    /** @var  InlineQuery */
-//    private $inline_query;
+    /** @var  InlineQuery|null */
+    private $inline_query;
 
 //    /** @var  ChoosenInlineResult */
 //    private $chosen_inline_result;
@@ -96,5 +98,25 @@ class Update extends TypeObject
             $callback_query = new CallbackQuery($callback_query);
         }
         $this->callback_query = $callback_query;
+    }
+
+    /**
+     * @return InlineQuery|null
+     */
+    public function getInlineQuery()
+    {
+        return $this->inline_query;
+    }
+
+    /**
+     * @param InlineQuery|array $inline_query
+     */
+    public function setInlineQuery($inline_query)
+    {
+        if (is_array($inline_query))
+        {
+            $inline_query = new InlineQuery($inline_query);
+        }
+        $this->inline_query = $inline_query;
     }
 }
