@@ -122,7 +122,6 @@ class Bot
     public function sendCommand(Command $command)
     {
         $url = Bot::COMMAND_LINK . $this->token . "/" . $command->getCommand();
-        $paramString = $command->getParams();
 
         $config = array(
             'maxredirects' => 3,
@@ -519,7 +518,7 @@ class Bot
     {
         $command = new Command("answerInlineQuery", [
             "inline_query_id" => $inline_query_id,
-            "results" => TypeObject::staticExtractArray($results),
+            "results" => json_encode(TypeObject::staticExtractArray($results)),
             "cache_time" => $cache_time,
             "is_personal" => $is_personal
         ]);

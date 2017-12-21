@@ -12,7 +12,7 @@ namespace Ainias\Library\TelegramBot\Objects\Inline;
 class InlineQueryResultPhoto extends InlineQueryResult
 {
     /** @var  string */
-    private $photo_result;
+    private $photo_url;
 
     /** @var  string */
     private $thumb_url;
@@ -41,17 +41,17 @@ class InlineQueryResultPhoto extends InlineQueryResult
     /**
      * @return string
      */
-    public function getPhotoResult(): string
+    public function getPhotoUrl(): string
     {
-        return $this->photo_result;
+        return $this->photo_url;
     }
 
     /**
-     * @param string $photo_result
+     * @param string $photo_url
      */
-    public function setPhotoResult(string $photo_result)
+    public function setPhotoUrl(string $photo_url)
     {
-        $this->photo_result = $photo_result;
+        $this->photo_url = $photo_url;
     }
 
     /**
